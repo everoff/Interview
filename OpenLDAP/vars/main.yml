@@ -1,0 +1,27 @@
+---
+ldap_basedn:       dc=interview,dc=net         
+ldap_server_uri:   ldap://localhost:389       
+ldap_bind_pw:      SC01#                     
+dbtype: "{1}mdb"
+dbconfig_path: /usr/share/slapd/DB_CONFIG
+schema_path: /etc/ldap/schema
+ldap_users:
+  user_id1:
+    cn: Ivan Ivanov
+    givenname: Ivan
+    sn: Ivanov
+    mail: userid1@interview.net
+    userpassword: test22_
+  user_id2:
+    cn: Yan Sidorov
+    givenname: Yan
+    sn: Sidorov
+    mail: userid2@interview.net
+    userpassword: test23_
+ldap_groups:
+  - name: Admin
+    members:
+      - user_id1
+  - name: Manager
+    members:
+      - user_id2

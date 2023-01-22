@@ -1,0 +1,5 @@
+---
+
+- hosts: openldap-01
+  roles:
+  - openldap

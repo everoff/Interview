@@ -1,0 +1,58 @@
+version: '2.2'
+
+networks:
+  default:
+    driver: bridge
+
+services:
+  c_node1:
+    image: cassandra:4.1
+    hostname: c_node1
+    container_name: c_node1
+    networks:
+      - default
+    ports:
+      - 29042:9042
+      - 7200:7199
+      - 9161:9160
+    environment:
+      - CASSANDRA_CLUSTER_NAME="Cassandra Cluster"
+      - CASSANDRA_NUM_TOKENS=128
+      - CASSANDRA_SEEDS=c_node1,c_node2,c_node3
+    restart: "unless-stopped"
+
+  c_node2:
+    image: cassandra:4.1
+    hostname: c_node2
+    container_name: c_node2
+    networks:
+      - default
+    ports:
+      - 29043:9042
+      - 7201:7199
+      - 9162:9160
+    environment:
+      - CASSANDRA_CLUSTER_NAME="Cassandra Cluster"
+      - CASSANDRA_NUM_TOKENS=128
+      - CASSANDRA_SEEDS=c_node2,c_node1,c_node3
+    depends_on:
+      - "c_node1"
+    restart: unless-stopped
+
+  c_node3:
+    image: cassandra:4.1
+    hostname: c_node3
+    container_name: c_node3
+    networks:
+      - default
+    ports:
+      - 29044:9042
+      - 7202:7199
+      - 9163:9160
+    environment:
+      - CASSANDRA_CLUSTER_NAME="Cassandra Cluster"
+      - CASSANDRA_NUM_TOKENS=128
+      - CASSANDRA_SEEDS=c_node3,c_node1,c_node2
+    depends_on:
+      - "c_node2"
+    restart: unless-stopped
